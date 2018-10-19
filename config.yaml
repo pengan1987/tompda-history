@@ -1,0 +1,10 @@
+name: tompda
+version: 1
+
+libraries:
+- name: "django"
+  version: "1.11.16"
+
+handlers:
+- url: /foo
+  static_dir: foo
