@@ -11,18 +11,21 @@
             line-height: 20px
         }
 
-        .table-responsive {
+        .table-responsive,  #searchbox {
             display: block;
-
             margin: 10px auto;
             width: 90%;
             max-width: 1024px;
-
         }
     </style>
 </head>
 
 <body>
+    <div id="searchbox">
+        用户 <input id="txtTrader" type="text" name="trader">
+        标题 <input id="txtKeyword" type="text" name="keyword">
+        <button onclick="search()">搜索</button>
+    </div>
     <div class="table-responsive ">
         <table class="table">
             <thead>
@@ -77,6 +80,35 @@
             {% endif %}
         </ul>
     </div>
+    <script type="text/javascript">
+        function getQueryVariable(variable) {
+            var query = window.location.search.substring(1);
+            var vars = query.split('&');
+            for (var i = 0; i < vars.length; i++) {
+                var pair = vars[i].split('=');
+                if (decodeURIComponent(pair[0]) == variable) {
+                    return decodeURIComponent(pair[1]);
+                }
+            }
+            console.log('Query variable %s not found', variable);
+        }
+        function search() {
+            var trader = document.getElementById("txtTrader").value.trim();
+            var keyword = document.getElementById("txtKeyword").value.trim();
+            var newSearch = "";
+            if (trader && trader.length > 0) {
+                newSearch += "&trader=" + trader;
+            }
+            if (keyword && keyword.length > 0) {
+                newSearch += "&keyword=" + keyword;
+            }
+            newSearch.replace('&', '?')
+            window.location.search = newSearch;
+            document.getElementById("txtTrader").value = '';
+            document.getElementById("txtKeyword").value = '';
+        }    
+    </script>
+
 </body>
 
 </html>
