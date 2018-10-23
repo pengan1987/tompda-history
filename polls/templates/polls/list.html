@@ -1,6 +1,7 @@
 <html>
 
 <head>
+    <link rel="stylesheet" href="https://dnbwg.oss-cn-hongkong.aliyuncs.com/base.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@4.0.1/reset.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-css-only@4.1.1/css/bootstrap.min.css">
     <style>
@@ -21,12 +22,26 @@
 </head>
 
 <body>
+    <nav style="position: relative; z-index: 2; width:100%">
+        <ul>
+            <li>
+                <a href="#" onclick="reset()">TomPDA查询</a>
+            </li>
+            <li>
+                <a href="http://www.dnbwg.com">电脑博物馆</a>
+            </li>
+            <li>
+                <a href="https://zhuanlan.zhihu.com/retrocomputing">知乎专栏</a>
+            </li>
+        </ul>
+    </nav>
     <div id="searchbox">
         用户 <input id="txtTrader" type="text" name="trader">
         标题 <input id="txtKeyword" type="text" name="keyword">
         <button onclick="search()">搜索</button>
+        <button onclick="reset()">重置</button>
     </div>
-    <div class="table-responsive ">
+    <div class="table-responsive">
         <table class="table">
             <thead>
                 <tr>
@@ -42,21 +57,21 @@
                     {# Each "order" is a order model object. #}
                     <td>{{ order.seller }}</td>
                     <td>{{ order.buyer }}</td>
-                    <td>{{ order.trade_date|date:'Y-m-d h:mA' }}</td>
+                    <td class="text-nowrap">{{ order.trade_date|date:'Y-m-d h:mA' }}</td>
                     <td>{{ order.item }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
-    <div>
-        <ul class="pagination justify-content-center">
+    <div class="table-responsive">
+        <ul class="pagination">
             {% if orders.has_previous %}
             <li class="page-item ">
-                <a class="page-link" href="?page=1">&lt;&lt;</a>
+                <a class="page-link" href="?page=1">««</a>
             </li>
             <li class="page-item">
-                <a class="page-link" href="?page={{ orders.previous_page_number }}">&lt;</a>
+                <a class="page-link" href="?page={{ orders.previous_page_number }}">«</a>
             </li>
             {% endif %}
             {% for pg in page_range %}
@@ -72,10 +87,10 @@
             {% endfor %}
             {% if orders.has_next %}
             <li class="page-item ">
-                <a class="page-link" href="?page={{ orders.next_page_number }}{{paging_link_tail}}">&gt;</a>
+                <a class="page-link" href="?page={{ orders.next_page_number }}{{paging_link_tail}}">»</a>
             </li>
             <li class="page-item">
-                <a class="page-link" href="?page={{ orders.paginator.num_pages }}{{paging_link_tail}}">&gt;&gt;</a>
+                <a class="page-link" href="?page={{ orders.paginator.num_pages }}{{paging_link_tail}}">»»</a>
             </li>
             {% endif %}
         </ul>
@@ -106,7 +121,12 @@
             window.location.search = newSearch;
             document.getElementById("txtTrader").value = '';
             document.getElementById("txtKeyword").value = '';
-        }    
+        }
+        function reset() {
+            document.getElementById("txtTrader").value = '';
+            document.getElementById("txtKeyword").value = '';
+            window.location.search = "";
+        }
     </script>
 
 </body>
