@@ -48,7 +48,7 @@ def index(request):
     else:
         orders_list = orders_list.order_by('trade_date')
 
-    paginator = Paginator(orders_list, 50)
+    paginator = Paginator(orders_list, 60)
 
     try:
         orders = paginator.page(page)
